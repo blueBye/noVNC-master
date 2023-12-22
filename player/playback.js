@@ -1,11 +1,6 @@
-/*
- * noVNC: HTML5 VNC client
- * Copyright (C) 2018 The noVNC Authors
- * Licensed under MPL 2.0 (see LICENSE.txt)
- */
-
 import RFB from '../core/rfb.js';
 import * as Log from '../core/util/logging.js';
+import { recorder } from './recorder.js'; 
 
 // Immediate polyfill
 if (window.setImmediate === undefined) {
@@ -83,6 +78,14 @@ export default class RecordingPlayer {
         // initialize a new RFB
         this._ws = new FakeWebSocket();
         this._rfb = new RFB(document.getElementById('VNC_screen'), this._ws);
+
+        // recorder
+        const canvas = document.querySelector("#VNC_screen > div:nth-child(2) > canvas")
+        this.recording = recorder(canvas, 20000)
+        var video = document.createElement('video')
+        document.body.appendChild(video)
+        this.recording.then(url => video.setAttribute('src', url) )
+
         this._rfb.viewOnly = true;
         this._rfb.addEventListener("disconnect",
                                    this._handleDisconnect.bind(this));
@@ -156,6 +159,17 @@ export default class RecordingPlayer {
             delete this._rfb;
             this.onfinish((new Date()).getTime() - this._startTime);
         }
+
+        // download
+        var link = document.createElement('a')
+        link.setAttribute('download','recordingVideo') 
+        this.recording.then(url => {
+          console.log('downloading')
+          link.setAttribute('href', url) 
+          link.click()
+        }).catch(err => {
+          console.log('error downloading', err)
+        });
     }
 
     _handleDisconnect(evt) {

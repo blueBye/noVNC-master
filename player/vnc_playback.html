@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>VNC Playback</title>
+  <script type="module" src="./playback-ui.js"></script>
+</head>
+
+<body>
+
+  Perftest:<input type='radio' id='mode1' name='mode' checked>&nbsp;
+  Realtime:<input type='radio' id='mode2' name='mode'>&nbsp;&nbsp;
+
+  <input id='startButton' type='button' value='Start' disabled>&nbsp;
+
+  <br><br>
+
+  <div id="VNC_screen">
+    <div id="VNC_status">Loading</div>
+  </div>
+
+  <br><br>
+
+  Results:<br>
+  <textarea id="messages" cols=80 rows=25></textarea>
+</body>
+
+</html>

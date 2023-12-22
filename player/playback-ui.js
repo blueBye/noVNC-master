@@ -31,8 +31,7 @@ function loadFile() {
 }
 
 function enableUI() {
-    const iterations = WebUtil.getQueryVar('iterations', 3);
-    document.getElementById('iterations').value = iterations;
+    const iterations = 1
 
     const mode = WebUtil.getQueryVar('mode', 3);
     if (mode === 'realtime') {
@@ -181,7 +180,7 @@ function start() {
     document.getElementById('startButton').value = "Running";
     document.getElementById('startButton').disabled = true;
 
-    const iterations = document.getElementById('iterations').value;
+    const iterations = 1;
 
     let realtime;
 
